@@ -29,11 +29,6 @@ const P2P = require("./p2p_handler");
 // --- IMPORT GESTORE TRAILER (YouTube/Invidious) ---
 const { getTrailerStreams } = require("./trailerProvider"); 
 
-// --- IMPORT GESTORI WEB (Vix, GuardaHD, GuardaSerie & AnimeWorld) ---
-const { searchVix } = require("./vix/vix_handler");
-const { searchGuardaHD } = require("./guardahd/ghd_handler"); 
-const { searchGuardaserie } = require("./guardaserie/gs_handler"); 
-const { searchAnimeWorld } = require("./animeworld/aw_handler"); 
 
 // --- 1. CONFIGURAZIONE LOGGER (Winston) ---
 const logger = winston.createLogger({
@@ -66,7 +61,6 @@ const Cache = {
     flushAll: async () => myCache.flushAll()
 };
 
-const { handleVixSynthetic } = require("./vix/vix_proxy");
 const { generateSmartQueries } = require("./ai_query");
 const { smartMatch } = require("./smart_parser");
 const { rankAndFilterResults } = require("./ranking");
@@ -1320,35 +1314,8 @@ async function generateStream(type, id, config, userConfStr, reqHost) {
       debridStreams = ranked.map(item => P2P.formatP2PStream(item, config));
   }
 
-  let rawVix = [], formattedGhd = [], formattedGs = [], formattedVix = [], formattedAw = [];
 
   if (!dbOnlyMode) {
-       const vixPromise = searchVix(meta, config, reqHost);
-       let ghdPromise = Promise.resolve([]);
-       if (config.filters && config.filters.enableGhd) {
-           ghdPromise = searchGuardaHD(meta, config).catch(err => {
-               logger.warn(`GuardaHD Error: ${err.message}`);
-               return [];
-           });
-       }
-
-       let gsPromise = Promise.resolve([]);
-       if (config.filters && config.filters.enableGs) {
-           gsPromise = searchGuardaserie(meta, config).catch(err => {
-               logger.warn(`GuardaSerie Error: ${err.message}`);
-               return [];
-           });
-       }
-
-       let awPromise = Promise.resolve([]);
-       if (config.filters && config.filters.enableAnimeWorld) {
-           awPromise = searchAnimeWorld(id, meta, config).catch(err => {
-               logger.warn(`AnimeWorld Error: ${err.message}`);
-               return [];
-           });
-       }
-
-       [rawVix, formattedGhd, formattedGs, formattedAw] = await Promise.all([vixPromise, ghdPromise, gsPromise, awPromise]);
        
        if (aioFormatter && aioFormatter.isAIOStreamsEnabled(config)) {
            const applyAioStyle = (streamList, sourceName) => {
@@ -1432,9 +1399,9 @@ async function generateStream(type, id, config, userConfStr, reqHost) {
 
   let finalStreams = [];
   if (config.filters && config.filters.vixLast === true) {
-      finalStreams = [...debridStreams, ...formattedGhd, ...formattedGs, ...formattedAw, ...formattedVix];
+      finalStreams = [...debridStreams];
   } else {
-      finalStreams = [...formattedGhd, ...formattedGs, ...formattedAw, ...formattedVix, ...debridStreams];
+      finalStreams = [...debridStreams];
   }
 
   if (config.filters) {
@@ -1452,16 +1419,7 @@ async function generateStream(type, id, config, userConfStr, reqHost) {
       });
   }
 
-  if (finalStreams.length === 0) {
-      logger.info(`⚠️ [FALLBACK] Nessun risultato trovato (P2P/Web Locali). Attivo WebStreamr...`);
-      const webStreamrResults = await searchWebStreamr(type, finalId);
-      if (webStreamrResults.length > 0) {
-           finalStreams.push(...webStreamrResults);
-           logger.info(`🕷️ [WEBSTREAMR] Aggiunti ${webStreamrResults.length} stream di fallback.`);
-      } else {
-           logger.info(`❌ [WEBSTREAMR] Nessun risultato trovato.`);
-      }
-  }
+  
 
   if (config.filters && config.filters.enableTrailers) {
       try {
@@ -1707,7 +1665,6 @@ app.get("/:conf/manifest.json", (req, res) => {
     res.json(manifest);
 });
 app.get("/:conf/catalog/:type/:id/:extra?.json", async (req, res) => { res.setHeader("Access-Control-Allow-Origin", "*"); res.json({metas:[]}); });
-app.get("/vixsynthetic.m3u8", handleVixSynthetic);
 
 app.get("/:conf/stream/:type/:id.json", async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
