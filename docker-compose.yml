@@ -21,4 +21,8 @@ services:
       - 8.8.4.4
     restart: unless-stopped
     networks:
-      - proxy
+      - {your_network}
+
+networks:
+  {your_network}:
+    external: true
