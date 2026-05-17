@@ -15,7 +15,7 @@ const ptt = require('parse-torrent-title'); 
 const { fetchExternalAddonsFlat } = require("./external-addons");
 const PackResolver = require("./leviathan-pack-resolver");
 const aioFormatter = require("./aiostreams-formatter.cjs");
-const { searchWebStreamr } = require("./webstreamr_handler");
+
 
 // --- IMPORT NUOVO MODULO CACHE TORBOX ---
 const TbCache = require("./debrid/tb_cache.js");
@@ -1362,47 +1362,12 @@ async function generateStream(type, id, config, userConfStr, reqHost) {
                    stream.behaviorHints.bingieGroup = `Leviathan|${quality}|Web|${sourceName.replace(/\W/g,'')}`;
                });
            };
-           if (typeof rawVix !== 'undefined') applyAioStyle(rawVix, "StreamingCommunity");
-           if (typeof formattedGhd !== 'undefined') applyAioStyle(formattedGhd, "GuardaHD");
-           if (typeof formattedGs !== 'undefined') applyAioStyle(formattedGs, "GuardaSerie");
+                      
            
-           if (typeof formattedAw !== 'undefined' && formattedAw.length > 0) {
-               formattedAw.forEach(stream => {
-                   stream.name = aioFormatter.formatStreamName({ service: "web", cached: true, quality: "HD" });
-                   stream.title = aioFormatter.formatStreamTitle({
-                       title: meta.title, 
-                       size: "Web", 
-                       language: "🇯🇵 JPN/ITA", 
-                       source: "AnimeWorld", 
-                       techInfo: "⛩️ Anime"
-                   });
-                   if (!stream.behaviorHints) stream.behaviorHints = {};
-                   stream.behaviorHints.bingieGroup = `Leviathan|HD|Web|AnimeWorld`;
-               });
-           }
-           formattedVix = rawVix; 
-       } else {
-           // 🔥 APPLICAZIONE SKIN SE AIO È DISATTIVO
-           if (rawVix && rawVix.length > 0) 
-               formattedVix = applyWebFormatter(rawVix, "StreamingCommunity", meta, config);
-           
-           if (formattedGhd && formattedGhd.length > 0) 
-               formattedGhd = applyWebFormatter(formattedGhd, "GuardaHD", meta, config);
-           
-           if (formattedGs && formattedGs.length > 0) 
-               formattedGs = applyWebFormatter(formattedGs, "GuardaSerie", meta, config);
-           
-           if (formattedAw && formattedAw.length > 0) 
-               formattedAw = applyWebFormatter(formattedAw, "AnimeWorld", meta, config);
-       }
+       } 
   }
 
   let finalStreams = [...debridStreams];
-  if (config.filters && config.filters.vixLast === true) {
-      finalStreams = [...debridStreams];
-  } else {
-      finalStreams = [...debridStreams];
-  }
 
   if (config.filters) {
       finalStreams = finalStreams.filter(stream => {
