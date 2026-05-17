@@ -1,18 +1,15 @@
 name: Build & Push Docker Image
 
 on:
+  # Si attiva ogni volta che fai il push sul branch main
+  push:
+    branches: [ "main" ]
   # Permette l'avvio manuale dal pannello Actions
   workflow_dispatch:
-  
-  # Si attiva automaticamente al termine del sync
-
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
-    # Esegue se avviato manualmente OPPURE se il sync è riuscito
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     
     permissions:
       contents: read
@@ -43,6 +40,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          # Crea l'immagine sia per PC (amd64) che per Oracle/Raspberry (arm64)
+          # Compila per PC e per Oracle ARM64
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/alessiocav2004-byte/icvfork:latest
+          # Usa il nome corretto della repo e i tag corretti
+          tags: |
+            ghcr.io/${{ github.repository }}:main
+            ghcr.io/${{ github.repository }}:latest
