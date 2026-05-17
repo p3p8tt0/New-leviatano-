@@ -930,131 +930,7 @@ const mobileHTML = `
 
                 </div>
 
-                <div class="m-hypervisor">
-                     <div class="m-hyp-header">
-                        <span>WEB MODULES</span>
-                        <i class="fas fa-cubes m-hyp-icon"></i>
-                    </div>
-
-                    <div class="m-reactor-grid">
-                        
-                        <div class="m-reactor-module" id="mod-vix">
-                            <div class="m-reactor-core">
-                                <i class="fas fa-play-circle m-core-icon"></i>
-                            </div>
-                            <div class="m-reactor-body">
-                                <div class="m-reactor-top">
-                                    <span class="m-reactor-title">StreamingCommunity</span>
-                                    <label class="m-switch">
-                                        <input type="checkbox" id="m-enableVix" onchange="updateStatus('m-enableVix','st-vix'); toggleModuleStyle('m-enableVix', 'mod-vix');">
-                                        <span class="m-slider"></span>
-                                    </label>
-                                </div>
-                                <span class="m-reactor-desc">Film, Serie TV & Anime (Catalogo Vasto)</span>
-                                <div class="m-tag-row">
-                                    <span class="m-tech-tag tag-noproxy"><i class="fas fa-bolt"></i> NO PROXY</span>
-                                </div>
-
-                                <div id="m-sc-options" class="m-sc-subpanel">
-                                    <div class="m-mini-tabs">
-                                        <div class="m-mini-tab active" id="mq-sc-all" onclick="setScQuality('all')">HYBRID</div>
-                                        <div class="m-mini-tab" id="mq-sc-1080" onclick="setScQuality('1080')">1080p</div>
-                                        <div class="m-mini-tab" id="mq-sc-720" onclick="setScQuality('720')">720p</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="m-reactor-module" id="mod-ghd">
-                            <div class="m-reactor-core">
-                                <i class="fas fa-film m-core-icon"></i>
-                            </div>
-                            <div class="m-reactor-body">
-                                <div class="m-reactor-top">
-                                    <span class="m-reactor-title">GuardaHD</span>
-                                    <label class="m-switch">
-                                        <input type="checkbox" id="m-enableGhd" onchange="updateStatus('m-enableGhd','st-ghd'); toggleModuleStyle('m-enableGhd', 'mod-ghd');">
-                                        <span class="m-slider"></span>
-                                    </label>
-                                </div>
-                                <span class="m-reactor-desc">Archivio HD di Film e Serie TV in Italiano. Aggiornamenti quotidiani.</span>
-                                <div class="m-tag-row">
-                                    <span class="m-tech-tag tag-mfp"><i class="fas fa-shield-alt"></i> MFP</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="m-reactor-module" id="mod-gs">
-                            <div class="m-reactor-core">
-                                <i class="fas fa-tv m-core-icon"></i>
-                            </div>
-                            <div class="m-reactor-body">
-                                <div class="m-reactor-top">
-                                    <span class="m-reactor-title">GuardaSerie</span>
-                                    <label class="m-switch">
-                                        <input type="checkbox" id="m-enableGs" onchange="updateStatus('m-enableGs','st-gs'); toggleModuleStyle('m-enableGs', 'mod-gs');">
-                                        <span class="m-slider m-slider-purple"></span>
-                                    </label>
-                                </div>
-                                <span class="m-reactor-desc">Specializzato in Serie TV. Catalogo Italiano completo con ultime uscite.</span>
-                                <div class="m-tag-row">
-                                    <span class="m-tech-tag tag-mfp"><i class="fas fa-shield-alt"></i> MFP</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="m-reactor-module" id="mod-aw">
-                            <div class="m-reactor-core">
-                                <i class="fas fa-torii-gate m-core-icon"></i>
-                            </div>
-                            <div class="m-reactor-body">
-                                <div class="m-reactor-top">
-                                    <span class="m-reactor-title">AnimeWorld</span>
-                                    <label class="m-switch">
-                                        <input type="checkbox" id="m-enableAnimeWorld" onchange="updateStatus('m-enableAnimeWorld','st-aw'); toggleModuleStyle('m-enableAnimeWorld', 'mod-aw');">
-                                        <span class="m-slider m-slider-amber"></span>
-                                    </label>
-                                </div>
-                                <span class="m-reactor-desc">Anime ITA Database</span>
-                                <div class="m-tag-row">
-                                    <span class="m-tech-tag tag-noproxy"><i class="fas fa-bolt"></i> NO PROXY</span>
-                                </div>
-                            </div>
-                        </div>
-
-                         <div class="m-reactor-module" id="mod-webstr">
-                            <div class="m-reactor-core">
-                                <i class="fas fa-spider m-core-icon"></i>
-                            </div>
-                            <div class="m-reactor-body">
-                                <div class="m-reactor-top">
-                                    <span class="m-reactor-title">WebStreamr</span>
-                                    <label class="m-switch">
-                                        <input type="checkbox" id="m-enableWebStreamr" checked onchange="toggleModuleStyle('m-enableWebStreamr', 'mod-webstr');">
-                                        <span class="m-slider" style="background-color:#333;"></span>
-                                    </label>
-                                </div>
-                                <span class="m-reactor-desc">Modulo di emergenza. Si attiva automaticamente <b>solo</b> quando non ci sono altri risultati.</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div id="m-priority-panel" class="m-priority-wrapper">
-                    <div style="margin-top:5px; padding:15px; border-radius:16px; background:linear-gradient(90deg, rgba(112,0,255,0.1), transparent); border-left:4px solid var(--m-secondary);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div>
-                                <h5 style="margin:0; font-family:'Rajdhani'; color:#fff;">PRIORITÀ WEB</h5>
-                                <p id="priority-desc" style="margin:5px 0 0; font-size:0.8rem; color:var(--m-dim);">Mostra Web in cima</p>
-                            </div>
-                            <label class="m-switch">
-                                <input type="checkbox" id="m-vixLast" onchange="updatePriorityLabel()">
-                                <span class="m-slider" style="border-color:var(--m-secondary)"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <div class="m-credits-section">
                     <div class="m-neural-frame">
@@ -1079,11 +955,7 @@ const mobileHTML = `
                             </a>
                         </div>
                         
-                        <a href="https://stremio-addons.net/addons/leviathan" target="_blank" class="m-star-btn">
-                            <i class="fas fa-star spin-star"></i> 
-                            <span>LASCIAMI UNA STELLA</span>
-                            <i class="fas fa-star spin-star"></i>
-                        </a>
+                        
 
                         <div class="m-neural-footer">LEVIATHAN SYSTEM v2.7.0</div>
                     </div>
@@ -2462,14 +2334,7 @@ function getMobileConfig() {
             no720: document.getElementById('mq-720').classList.contains('excluded'),
             noScr: document.getElementById('mq-sd').classList.contains('excluded'),
             noCam: document.getElementById('mq-sd').classList.contains('excluded'),
-            enableVix: document.getElementById('m-enableVix').checked,
-            enableGhd: document.getElementById('m-enableGhd').checked,
-            enableGs: document.getElementById('m-enableGs').checked,
-            enableAnimeWorld: document.getElementById('m-enableAnimeWorld').checked,
-            enableWebStreamr: document.getElementById('m-enableWebStreamr').checked,
             enableTrailers: document.getElementById('m-enableTrailers').checked,
-            vixLast: document.getElementById('m-vixLast').checked,
-            scQuality: mScQuality,
             maxPerQuality: gateActive ? gateVal : 0,
             maxSizeGB: finalMaxSizeGB > 0 ? finalMaxSizeGB : null
         }
@@ -2481,7 +2346,7 @@ function updateLinkModalContent() {
     if(!box) return;
     
     const config = getMobileConfig();
-    const isWebEnabled = config.filters.enableVix || config.filters.enableGhd || config.filters.enableGs || config.filters.enableAnimeWorld || config.filters.enableP2P;
+    const isWebEnabled = config.filters.enableP2P;
     
     if(!config.key && !isWebEnabled) {
         box.value = "/// SYSTEM OFFLINE: WAITING FOR CONFIGURATION DATA ///\\n[!] Inserisci API Key o Attiva Sorgenti Web/P2P";
