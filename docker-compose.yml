@@ -1,28 +1,18 @@
 services:
   leviathan:
     container_name: leviathan
+    #image: your-builded_image
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8397:7000"
-    environment:
-      - PORT=7000
-      - NODE_ENV=production
-      - SCRAPER_TIMEOUT=2000
-      - DISABLE_LOCAL_SCRAPERS=true
-      - DB_HOST={your_db_host}
-      - DB_PORT={your_db_host_port}
-      - DB_USER={your_db_host_username}
-      - DB_PASSWORD={your_db_password}
-      - DB_NAME=leviathan
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    env_file:
+      - .env
     restart: unless-stopped
     networks:
-      - {your_network}
+      - proxy
 
 networks:
-  {your_network}:
+  proxy:
     external: true
