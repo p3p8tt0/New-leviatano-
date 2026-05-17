@@ -85,11 +85,9 @@ Il core, sviluppato in **Node.js**, orchestra scansioni parallele sui principali
 ### 🔥 Release 2.7 Highlights
 
 * 🚀 **Core Refactoring:** Motore riscritto per massimizzare stabilità e concorrenza.
-* 🕷️ **WebStreams Fallback:** Attivazione automatica intelligente delle sorgenti Web se il P2P non ha risultati (Disattivabile).
 * 🎨 **Polymorphic Formatter:** Engine di formattazione avanzato. Scegli tra preset grafici o inietta il tuo stile custom.
 * 🗣️ **Tri-Scope Language:** Selettore di perimetro: Solo ITA, ITA+ENG (Hybrid) o Solo ENG.
 * 🎬 **Trailer Bridge:** Reindirizzamento nativo verso YouTube per anteprime istantanee.
-* 🌪️ **VIX Hybrid Module:** Integrazione diretta con **StreamingCommunity**, **GuardaHD** e **GuardaSerie**.
 * 📱 **Mobile UX:** Implementazione di `smartphone.js` per una GUI ottimizzata mobile.
 * 👻 **Ghost Proxying:** Supporto nativo a **MediaFlow** per l'uso sicuro di Account Debrid condivisi.
 * 🔗 **AIOStreams:** Supporto nativo per flussi AIOStreams integrato nel motore.
@@ -126,55 +124,28 @@ Non si limita a trovare il link. Lo potenzia.
 * **Smart Parsing:** Normalizzazione regex per Stagioni/Episodi (`S01E01`, `1x01`) indipendentemente dal formato sorgente.
 * **Magnet Boosting:** Inietta nel payload una lista curata di **Tracker UDP Tier-1** *(OpenTrackr, Quad, Lubitor)* per massimizzare la velocità di aggancio dei peer e ridurre il tempo di pre-buffering.
 
-### 5. 🌪️ VIX Hybrid Protocol (StreamingCommunity)
-Leviathan evolve oltre il Torrent. Il modulo **VIX** interroga direttamente l'infrastruttura di StreamingCommunity.
-* **Direct HLS Extraction:** Aggancia i flussi video m3u8 direttamente dalla sorgente web.
-* **Zero-Wait:** Nessun buffering iniziale, nessun bisogno di seeders. Il contenuto parte istantaneamente.
-* **Fallback Intelligente:** Se il torrent non ha seed, il sistema commuta automaticamente sul flusso web.
-
-### 6. 🦁 GuardaHD Integration Layer
-Modulo web nativo per contenuti ITA-first.
-* **Direct Stream Extraction:** Parsing automatico di flussi HLS (m3u8) e MP4 dai player embedded.
-* **ITA Validation:** Verifica semantica lingua/audio. Se non è italiano → scartato.
-* **Multi-Player Support:** Risoluzione dinamica dei player (MixDrop, StreamTape, ecc.).
-* **Zero-Seed Playback:** Avvio immediato, nessuna dipendenza da torrent o debrid.
-* **Fast Web Lane:** Priorità alta come fallback dopo VIX.
-
-### 7.🍿 GuardaSerie Integration Layer
-Sorgente web specializzata in Serie TV ITA.
-* **Season/Episode Resolver:** Parsing nativo strutture Stagione/Episodio.
-* **Direct Stream Extraction:** Estrazione diretta HLS (m3u8) / MP4 dai player embedded.
-* **ITA-Strict Filter:** Validazione semantica lingua/audio. Non ITA → eliminato.
-* **Zero-Seed Playback:** Avvio immediato, nessuna dipendenza da torrent o debrid.
-* **Fast Web Lane:** Priorità alta come web fallback per serie TV.
-
-### 8. 👻 Debrid Ghost Shell (MediaFlow Proxy)
+### 5. 👻 Debrid Ghost Shell (MediaFlow Proxy)
 Progettato per l'elusione dei blocchi IP e la gestione di account Multi-Utente.
 * **IP Masking:** Tutto il traffico verso Real-Debrid viene tunnelizzato tramite **MediaFlow Proxy**.
 * **Shared Account Support:** Permette l'utilizzo dello stesso account Debrid su più IP contemporaneamente senza rischiare il ban, poiché il provider vede solo l'IP del Proxy.
 * **Anti-Throttling:** Bypassa i blocchi imposti dagli ISP sui domini dei servizi Debrid.
 
-### 9. 🕷️ WebStreams Auto-Failover
-Il sistema non accetta vicoli ciechi.
-* **Smart Switch:** Se la scansione Torrent restituisce 0 risultati validi, Leviathan innesca automaticamente i moduli Web (StreamingCommunity/GuardaHD).
-* **Configurable Logic:** Funzione attivata di default, ma disabilitabile dalla dashboard per gli utenti che desiderano un'esperienza rigorosamente P2P.
-
-### 10. 🎨 Polymorphic Formatter Engine
+### 6. 🎨 Polymorphic Formatter Engine
 Il controllo totale sulla presentazione visiva dei risultati.
 * **Preset Selection:** Seleziona tra diversi stili di visualizzazione pre-codificati per adattare l'output ai tuoi gusti.
 * **Custom Syntax:** Possibilità di definire un formatter personalizzato per strutturare i metadati (Risoluzione, Codec, Audio) esattamente come vuoi tu.
 
-### 11. 🗣️ Linguistic Scope Control
+### 7. 🗣️ Linguistic Scope Control
 Definisci i confini della tua ricerca.
 * **🇮🇹 ITA Strict:** Filtro chirurgico solo per contenuti in lingua italiana.
 * **🌍 Global (ENG):** Accesso diretto ai tracker internazionali senza filtri linguistici.
 * **🧬 Hybrid (ITA+ENG):** La fusione perfetta. Priorità ai contenuti italiani, con fallback immediato sulle release internazionali ad alta qualità.
 
-### 12. 🎬 Visual Pre-Fetch (Trailer Integration)
+### 8. 🎬 Visual Pre-Fetch (Trailer Integration)
 * **Instant Preview:** Integrazione diretta con le API di YouTube.
 * **Context Aware:** Recupera automaticamente il trailer corretto basandosi sui metadati IMDB/TMDB del contenuto selezionato.
 
-### 13. 📡 Direct Swarm Access (Pure P2P)
+### 9. 📡 Direct Swarm Access (Pure P2P)
 Leviathan non impone l'uso di intermediari. Il motore supporta la connessione diretta alla rete BitTorrent.
 * **Sequential Priority:** Forza il download sequenziale dei pezzi del file per garantire uno streaming fluido senza attendere il completamento.
 * **Peer Exchange:** Aggancio aggressivo ai peer tramite DHT e PEX per massimizzare la velocità anche su torrent con pochi seed.
@@ -235,9 +206,6 @@ Leviathan non impone l'uso di intermediari. Il motore supporta la connessione di
 
 | **TARGET ENGINE** | **REGION** | **LATENCY** | **MODE** | **STATUS** |
 | :--- | :---: | :---: | :---: | :---: |
-| **StreamingCommunity** | 🇮🇹 ITA | ![](https://img.shields.io/badge/⏱️_INSTANT-ULTRA-FF0000?style=flat-square&labelColor=black) | ![](https://img.shields.io/badge/🌪️_HLS-Stream-red?style=flat-square&labelColor=black) | 🟢 |
-| **GuardaHD** | 🇮🇹 ITA | ![](https://img.shields.io/badge/⏱️_INSTANT-PREMIUM-00ff00?style=flat-square&labelColor=black) | ![](https://img.shields.io/badge/🦁_HLS-Stream-red?style=flat-square&labelColor=black) | 🟢 |
-| **GuardaSerie** | 🇮🇹 ITA | ![](https://img.shields.io/badge/⏱️_INSTANT-HQ-00ff00?style=flat-square&labelColor=black) | ![](https://img.shields.io/badge/🍿_HLS-Stream-red?style=flat-square&labelColor=black) | 🟢 |
 | **Il Corsaro Nero** | 🇮🇹 ITA | ![](https://img.shields.io/badge/⏱️_3000ms-HQ-00eaff?style=flat-square&labelColor=black) | ![](https://img.shields.io/badge/⚡_Fast-Lane-00eaff?style=flat-square&labelColor=black) | 🟢 |
 | **Knaben** | 🌍 GLB | ![](https://img.shields.io/badge/⏱️_3000ms-HQ-00eaff?style=flat-square&labelColor=black) | ![](https://img.shields.io/badge/🔌_API-JSON-blueviolet?style=flat-square&labelColor=black) | 🟢 |
 | **The Pirate Bay** | 🌍 GLB | ![](https://img.shields.io/badge/⏱️_3000ms-HQ-00eaff?style=flat-square&labelColor=black) | ![](https://img.shields.io/badge/🔌_API-JSON-blueviolet?style=flat-square&labelColor=black) | 🟢 |
