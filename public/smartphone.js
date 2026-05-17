@@ -2349,7 +2349,7 @@ function updateLinkModalContent() {
     const isWebEnabled = config.filters.enableP2P;
     
     if(!config.key && !isWebEnabled) {
-        box.value = "/// SYSTEM OFFLINE: WAITING FOR CONFIGURATION DATA ///\\n[!] Inserisci API Key o Attiva Sorgenti Web/P2P";
+        box.value = "/// SYSTEM OFFLINE: WAITING FOR CONFIGURATION DATA ///\\n[!] Inserisci API Key o Attiva Sorgenti P2P";
         box.style.color = "var(--m-error)";
         return;
     }
