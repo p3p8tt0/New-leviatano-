@@ -1,23 +1,39 @@
-function getManifest() {
-    return {
-        id: "org.corsaro.brain.v2",
-        version: "2.7.0",
-        name: "Leviathan",
-        description: "Motore di ricerca parallelo ad alte prestazioni. Include integrazione Web (StreamingCommunity, GuardaHD, GuardaSerie) e Scraper Torrent Multi-Source: Corsaro Nero, Knaben, 1337x, RARBG, TGx, Nyaa, TPB, Lime, Solid, BitSearch e altri. Supporto nativo Debrid per garantire streaming 4K/HDR fluido e senza buffering.",
-        logo: "https://i.ibb.co/Q7Y7ynkB/Gemini-Generated-Image-9iv6af9iv6af9iv6-Photoroom.png",
-        resources: ["catalog", "stream"],
-        types: ["movie", "series"],
-        catalogs: [],
-        behaviorHints: { 
-            configurable: true, 
-            configurationRequired: false 
-        },
-        
-        stremioAddonsConfig: {
-            issuer: "https://stremio-addons.net",
-            signature: "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..guRYCFSZxJ-zbESKkZicTg.R-jeN-fyn1-6JWfMqJREy66fhEopTajTGkAKoDmwimetqMzI8zRhFoHYOckwb6KncfR4XK1g_8h9u7gYq2LFdvF5Lwm2Hr3iLcpO5vygwbSpIX7DmtV9fzKh0Z-Fe5l0.5Uy2bL0SyUSZ0mPlOSeiaA"
-        }
-    };
+// =========================
+// FIX PER NODE 18 (UNDICI)
+// =========================
+if (typeof File === "undefined") {
+  globalThis.File = class File extends Blob {
+    constructor(chunks, filename, options = {}) {
+      super(chunks, options);
+      this.name = filename;
+      this.lastModified = options.lastModified || Date.now();
+    }
+  };
 }
 
-module.exports = { getManifest };
+// =========================
+// IMPORT NECESSARI
+// =========================
+const express = require("express");
+const app = express();
+
+// =========================
+// LOG DI AVVIO
+// =========================
+console.log("===== Application Startup =====");
+console.log("📂 Caricamento modulo db-helper (FIXED COLUMN ERROR)...");
+
+// =========================
+// CARICAMENTO MODULI CORE
+// =========================
+try {
+  require("./db-helper.js");
+  require("./leviathan-pack-resolver.js");
+  require("./formatter.js");
+  require("./ranking.js");
+  require("./smart_parser.js");
+  require("./p2p_handler.js");
+
+  console.log("🦑 LEVIATHAN CORE: Caricato correttamente.");
+} catch (err) {
+  console
