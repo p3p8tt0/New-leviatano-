@@ -17,21 +17,6 @@ if (typeof File === "undefined") {
 const express = require("express");
 const app = express();
 
-// Carica il core del tuo addon
-// (Assumo che il file originale del progetto sia "index.js" o simile)
-// Se il tuo file principale ha un altro nome, dimmelo e lo sistemo.
-try {
-  require("./index.js"); 
-  console.log("📦 Modulo Leviatano caricato correttamente.");
-} catch (err) {
-  console.error("❌ Errore nel caricare il core del progetto:", err);
-}
-
-// =========================
-// PORTA COMPATIBILE HF
-// =========================
-const PORT = process.env.PORT || 7000;
-
 // =========================
 // ENDPOINT BASE
 // =========================
@@ -40,7 +25,30 @@ app.get("/", (req, res) => {
 });
 
 // =========================
+// AVVIO DEL CORE ORIGINALE
+// =========================
+try {
+  console.log("📂 Avvio del core Leviatano...");
+  require("./leviathan-pack-resolver.js");
+  require("./formatter.js");
+  require("./ranking.js");
+  require("./smart_parser.js");
+  require("./p2p_handler.js");
+  require("./db-helper.js");
+  require("./manifest.js");
+  console.log("✅ Core Leviatano caricato correttamente.");
+} catch (err) {
+  console.error("❌ Errore nel caricare il core Leviatano:", err);
+}
+
+// =========================
+// PORTA COMPATIBILE HF
+// =========================
+const PORT = process.env.PORT || 7000;
+
+// =========================
 // AVVIO SERVER
 // =========================
 app.listen(PORT, () => {
-  console.log(`🚀 Leviatano attivo
+  console.log(`🚀 Leviatano attivo su porta ${PORT}`);
+});
