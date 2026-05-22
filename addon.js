@@ -1,4 +1,4 @@
-// Fix Node 18
+// Fix Node 18 per File
 if (typeof File === "undefined") {
   globalThis.File = class File extends Blob {
     constructor(chunks, filename, options = {}) {
@@ -10,53 +10,64 @@ if (typeof File === "undefined") {
 }
 
 const express = require("express");
+const path = require("path");
 const app = express();
 
-// ====== MANIFEST STREMIO ======
-const manifest = {
-  id: "org.leviathan",
-  version: "1.0.0",
-  name: "Leviathan Addon",
-  description: "Replica dell'addon originale Leviatano",
-  resources: ["catalog", "stream", "meta"],
-  types: ["movie", "series"],
-  catalogs: [
-    { type: "movie", id: "leviathan_movies", name: "Leviathan Movies" },
-    { type: "series", id: "leviathan_series", name: "Leviathan Series" }
-  ]
-};
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-// Homepage solo informativa
-app.get("/", (req, res) => {
-  res.send(`
-    <h1>🦑 Leviathan Addon</h1>
-    <p>L'addon è attivo.</p>
-    <p>Manifest: <a href="/manifest.json">/manifest.json</a></p>
-  `);
+// QUI IMPORTI I MODULI DI LEVIATANO
+// Adatta questi require ai nomi/esportazioni reali:
+const smartParser = require("./smart_parser");
+const ranking = require("./ranking");
+const p2p = require("./p2p_handler");
+const resolver = require("./leviathan-pack-resolver");
+
+// ========== API DI RICERCA ==========
+app.get("/api/search", async (req, res) => {
+  const q = req.query.q || "";
+  try {
+    // TODO: sostituisci con la funzione reale di ricerca
+    // Esempio (da adattare):
+    // const raw = await smartParser.search(q);
+    // const results = ranking.rank(raw);
+    const results = []; // placeholder
+    res.json({ ok: true, results });
+  } catch (err) {
+    console.error("Errore /api/search:", err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
-// Manifest per Stremio
-app.get("/manifest.json", (req, res) => {
-  res.json(manifest);
+// ========== API META ==========
+app.get("/api/meta", async (req, res) => {
+  const id = req.query.id;
+  try {
+    // TODO: sostituisci con la funzione reale che recupera i meta
+    // const meta = await resolver.getMeta(id);
+    const meta = {}; // placeholder
+    res.json({ ok: true, meta });
+  } catch (err) {
+    console.error("Errore /api/meta:", err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
-// Catalog (stub per ora)
-app.get("/catalog/:type/:id.json", async (req, res) => {
-  res.json({ metas: [] });
-});
-
-// Meta (stub)
-app.get("/meta/:type/:id.json", async (req, res) => {
-  res.json({ meta: {} });
-});
-
-// Stream (stub)
-app.get("/stream/:type/:id.json", async (req, res) => {
-  res.json({ streams: [] });
+// ========== API STREAM ==========
+app.get("/api/stream", async (req, res) => {
+  const id = req.query.id;
+  try {
+    // TODO: sostituisci con la funzione reale che genera gli stream
+    // const streams = await p2p.getStreams(id);
+    const streams = []; // placeholder
+    res.json({ ok: true, streams });
+  } catch (err) {
+    console.error("Errore /api/stream:", err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
 const PORT = process.env.PORT || 7860;
-
 app.listen(PORT, () => {
-  console.log("🚀 Addon Stremio attivo su porta " + PORT);
+  console.log("🦑 Leviathan UI attiva su porta " + PORT);
 });
