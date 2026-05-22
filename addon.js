@@ -18,28 +18,33 @@ const express = require("express");
 const app = express();
 
 // =========================
-// ENDPOINT BASE
+// LOG DI AVVIO
 // =========================
-app.get("/", (req, res) => {
-  res.send("🦑 Leviatano è attivo e funzionante su Hugging Face!");
-});
+console.log("===== Application Startup =====");
+console.log("📂 Avvio del core Leviatano...");
 
 // =========================
-// AVVIO DEL CORE ORIGINALE
+// CARICAMENTO MODULI CORE
 // =========================
 try {
-  console.log("📂 Avvio del core Leviatano...");
+  require("./db-helper.js");
   require("./leviathan-pack-resolver.js");
   require("./formatter.js");
   require("./ranking.js");
   require("./smart_parser.js");
   require("./p2p_handler.js");
-  require("./db-helper.js");
-  require("./manifest.js");
-  console.log("✅ Core Leviatano caricato correttamente.");
+
+  console.log("🦑 Leviathan core caricato.");
 } catch (err) {
-  console.error("❌ Errore nel caricare il core Leviatano:", err);
+  console.error("❌ Errore nel core:", err);
 }
+
+// =========================
+// ENDPOINT BASE
+// =========================
+app.get("/", (req, res) => {
+  res.send("🦑 Leviatano è attivo e funzionante su Hugging Face!");
+});
 
 // =========================
 // PORTA COMPATIBILE HF
@@ -50,5 +55,5 @@ const PORT = process.env.PORT || 7000;
 // AVVIO SERVER
 // =========================
 app.listen(PORT, () => {
-  console.log(`🚀 Leviatano attivo su porta ${PORT}`);
+  console.log(`🚀 Leviathan attivo su porta ${PORT}`);
 });
