@@ -1,6 +1,4 @@
-// =========================
-// FIX PER NODE 18 (UNDICI)
-// =========================
+// Fix Node 18
 if (typeof File === "undefined") {
   globalThis.File = class File extends Blob {
     constructor(chunks, filename, options = {}) {
@@ -11,49 +9,67 @@ if (typeof File === "undefined") {
   };
 }
 
-// =========================
-// IMPORT NECESSARI
-// =========================
 const express = require("express");
 const app = express();
 
-// =========================
-// LOG DI AVVIO
-// =========================
-console.log("===== Application Startup =====");
-console.log("📂 Avvio del core Leviatano...");
+// ====== MANIFEST ======
+const manifest = {
+  id: "org.leviathan",
+  version: "1.0.0",
+  name: "Leviathan Addon",
+  description: "Replica dell'addon originale Leviatano",
+  resources: ["catalog", "stream", "meta"],
+  types: ["movie", "series"],
+  catalogs: [
+    {
+      type: "movie",
+      id: "leviathan_movies",
+      name: "Leviathan Movies"
+    },
+    {
+      type: "series",
+      id: "leviathan_series",
+      name: "Leviathan Series"
+    }
+  ]
+};
 
-// =========================
-// CARICAMENTO MODULI CORE
-// =========================
-try {
-  require("./db-helper.js");
-  require("./leviathan-pack-resolver.js");
-  require("./formatter.js");
-  require("./ranking.js");
-  require("./smart_parser.js");
-  require("./p2p_handler.js");
-
-  console.log("🦑 Leviathan core caricato.");
-} catch (err) {
-  console.error("❌ Errore nel core:", err);
-}
-
-// =========================
-// ENDPOINT BASE
-// =========================
-app.get("/", (req, res) => {
-  res.send("🦑 Leviatano è attivo e funzionante su Hugging Face!");
+// ====== ENDPOINT MANIFEST ======
+app.get("/manifest.json", (req, res) => {
+  res.json(manifest);
 });
 
-// =========================
-// PORTA COMPATIBILE HF
-// =========================
+// ====== ENDPOINT CATALOGO ======
+app.get("/catalog/:type/:id.json", async (req, res) => {
+  const { type, id } = req.params;
+
+  // Qui devi collegare il tuo motore di ricerca interno
+  const results = []; // TODO: integra Leviathan
+
+  res.json({ metas: results });
+});
+
+// ====== ENDPOINT META ======
+app.get("/meta/:type/:id.json", async (req, res) => {
+  const { type, id } = req.params;
+
+  const meta = {}; // TODO: integra Leviathan
+
+  res.json({ meta });
+});
+
+// ====== ENDPOINT STREAM ======
+app.get("/stream/:type/:id.json", async (req, res) => {
+  const { type, id } = req.params;
+
+  const streams = []; // TODO: integra Leviathan
+
+  res.json({ streams });
+});
+
+// ====== PORTA ======
 const PORT = process.env.PORT || 7860;
 
-// =========================
-// AVVIO SERVER
-// =========================
 app.listen(PORT, () => {
-  console.log(`🚀 Leviathan attivo su porta ${PORT}`);
+  console.log("🚀 Addon Stremio attivo su porta " + PORT);
 });
