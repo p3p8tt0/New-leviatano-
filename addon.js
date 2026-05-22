@@ -12,7 +12,7 @@ if (typeof File === "undefined") {
 const express = require("express");
 const app = express();
 
-// ====== MANIFEST ======
+// ====== MANIFEST STREMIO ======
 const manifest = {
   id: "org.leviathan",
   version: "1.0.0",
@@ -21,53 +21,40 @@ const manifest = {
   resources: ["catalog", "stream", "meta"],
   types: ["movie", "series"],
   catalogs: [
-    {
-      type: "movie",
-      id: "leviathan_movies",
-      name: "Leviathan Movies"
-    },
-    {
-      type: "series",
-      id: "leviathan_series",
-      name: "Leviathan Series"
-    }
+    { type: "movie", id: "leviathan_movies", name: "Leviathan Movies" },
+    { type: "series", id: "leviathan_series", name: "Leviathan Series" }
   ]
 };
 
-// ====== ENDPOINT MANIFEST ======
+// Homepage solo informativa
+app.get("/", (req, res) => {
+  res.send(`
+    <h1>🦑 Leviathan Addon</h1>
+    <p>L'addon è attivo.</p>
+    <p>Manifest: <a href="/manifest.json">/manifest.json</a></p>
+  `);
+});
+
+// Manifest per Stremio
 app.get("/manifest.json", (req, res) => {
   res.json(manifest);
 });
 
-// ====== ENDPOINT CATALOGO ======
+// Catalog (stub per ora)
 app.get("/catalog/:type/:id.json", async (req, res) => {
-  const { type, id } = req.params;
-
-  // Qui devi collegare il tuo motore di ricerca interno
-  const results = []; // TODO: integra Leviathan
-
-  res.json({ metas: results });
+  res.json({ metas: [] });
 });
 
-// ====== ENDPOINT META ======
+// Meta (stub)
 app.get("/meta/:type/:id.json", async (req, res) => {
-  const { type, id } = req.params;
-
-  const meta = {}; // TODO: integra Leviathan
-
-  res.json({ meta });
+  res.json({ meta: {} });
 });
 
-// ====== ENDPOINT STREAM ======
+// Stream (stub)
 app.get("/stream/:type/:id.json", async (req, res) => {
-  const { type, id } = req.params;
-
-  const streams = []; // TODO: integra Leviathan
-
-  res.json({ streams });
+  res.json({ streams: [] });
 });
 
-// ====== PORTA ======
 const PORT = process.env.PORT || 7860;
 
 app.listen(PORT, () => {
