@@ -1,6 +1,4 @@
-// =========================
-// FIX PER NODE 18 (UNDICI)
-// =========================
+// Fix per Node 18 (undici)
 if (typeof File === "undefined") {
   globalThis.File = class File extends Blob {
     constructor(chunks, filename, options = {}) {
@@ -11,21 +9,10 @@ if (typeof File === "undefined") {
   };
 }
 
-// =========================
-// IMPORT NECESSARI
-// =========================
 const express = require("express");
 const app = express();
 
-// =========================
-// LOG DI AVVIO
-// =========================
-console.log("===== Application Startup =====");
-console.log("📂 Caricamento modulo db-helper (FIXED COLUMN ERROR)...");
-
-// =========================
-// CARICAMENTO MODULI CORE
-// =========================
+// Carica il core Leviatano
 try {
   require("./db-helper.js");
   require("./leviathan-pack-resolver.js");
@@ -33,7 +20,17 @@ try {
   require("./ranking.js");
   require("./smart_parser.js");
   require("./p2p_handler.js");
-
-  console.log("🦑 LEVIATHAN CORE: Caricato correttamente.");
+  console.log("🦑 Leviathan core caricato.");
 } catch (err) {
-  console
+  console.error("❌ Errore nel core:", err);
+}
+
+app.get("/", (req, res) => {
+  res.send("🦑 Leviatano attivo su Hugging Face!");
+});
+
+const PORT = process.env.PORT || 7000;
+
+app.listen(PORT, () => {
+  console.log("🚀 Leviathan attivo su porta " + PORT);
+});
