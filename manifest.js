@@ -6,7 +6,7 @@
   "author": "TuoNome",
   "logo": "https://vavoo.tv/favicon.ico",
   "supportedTypes": ["tv"],
-  "filename": "providers/vavooitalia.js",
+  "filename": "vavooitalia.js",
   "enabled": true,
   "contentLanguage": ["it"],
   "formats": ["m3u8"],
